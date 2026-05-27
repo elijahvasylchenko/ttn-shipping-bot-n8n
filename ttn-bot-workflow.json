@@ -1,0 +1,1150 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "8e256bc9-528c-4313-ba34-c80a73e3789e",
+              "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
+              "rightValue": "YOUR_SECRET_CODE",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -752,
+        -1216
+      ],
+      "id": "bd5672d5-e765-4cf2-8e06-e80c60ee22dc",
+      "name": "Admin secret code check"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=Hello, <u>{{ $json.message.chat.first_name }}</u>",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        672,
+        -1584
+      ],
+      "id": "94b0c4a6-c358-4ba7-a353-d5eeb37a8e37",
+      "name": "Telegram",
+      "webhookId": "REDACTED",
+      "credentials": {
+        "telegramApi": {
+          "id": "REDACTED",
+          "name": "YOUR_BOT_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1168,
+        -1584
+      ],
+      "id": "2c9418f7-ee48-4193-98e4-83b343e6a06e",
+      "name": "Wait",
+      "webhookId": "REDACTED"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=This is a test bot\n\nUser ID: <code>{{ $('Telegram Trigger').item.json.message.from.id }}</code>",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        736,
+        -1392
+      ],
+      "id": "a9fa69bf-4160-446b-865a-2b6dda9a98b9",
+      "name": "Telegram3",
+      "webhookId": "REDACTED",
+      "credentials": {
+        "telegramApi": {
+          "id": "REDACTED",
+          "name": "YOUR_BOT_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
+                    "rightValue": "/start",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    },
+                    "id": "2c5017d6-5bd6-41fd-b4a1-7738a43490e5"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "start"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a2980f69-9bae-4446-a289-03b86670b997",
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
+                    "rightValue": "/help",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "help"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4f459f2e-293c-49a7-88dd-c451f65d7088",
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
+                    "rightValue": "/get",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "GET TTN"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "739d78ac-880b-4377-bcc5-adc2d1b7f592",
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
+                    "rightValue": "/",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notStartsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Free text"
+            }
+          ]
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        448,
+        -1152
+      ],
+      "id": "feb25162-3f81-430e-8153-cd4377804ed0",
+      "name": "Commands"
+    },
+    {
+      "parameters": {
+        "operation": "sendChatAction",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        656,
+        -864
+      ],
+      "id": "674476aa-bba3-4316-9cec-f29035a3c104",
+      "name": "Send a chat action",
+      "webhookId": "REDACTED",
+      "credentials": {
+        "telegramApi": {
+          "id": "REDACTED",
+          "name": "YOUR_BOT_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "TG user test base",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "User id": "={{ $json.result.chat.id }}",
+            "Username": "={{ $json.result.chat.username }}",
+            "Date": "={{ $now }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "User id",
+              "displayName": "User id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Username",
+              "displayName": "Username",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        880,
+        -1584
+      ],
+      "id": "1ce581fe-dd43-44ed-8c10-766c78df5a84",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REDACTED",
+          "name": "YOUR_GOOGLE_SHEETS_CREDENTIAL"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=This is a private bot — access denied",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        -1024
+      ],
+      "id": "17ae2f06-f127-45ca-b403-846b14b47fc2",
+      "name": "Access denied",
+      "webhookId": "REDACTED",
+      "credentials": {
+        "telegramApi": {
+          "id": "REDACTED",
+          "name": "YOUR_BOT_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "50d352e9-cbf3-4cf0-94a7-73bdb8ca08ed",
+              "leftValue": "={{ $('If admin exists').item.json.id }}",
+              "rightValue": "=YOUR_ADMIN_TG_ID|YOUR_GROUP_ID",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -176,
+        -1120
+      ],
+      "id": "75ffd20e-010c-4b42-8942-7950511b4179",
+      "name": "Allow admin only"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=Access granted",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -288,
+        -1360
+      ],
+      "id": "ed22d8fc-0ee3-4f31-8aa2-6693ce33417a",
+      "name": "Access granted",
+      "webhookId": "REDACTED",
+      "credentials": {
+        "telegramApi": {
+          "id": "REDACTED",
+          "name": "YOUR_BOT_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "YOUR_DATATABLE_ID",
+          "mode": "list",
+          "cachedResultName": "Bot Users",
+          "cachedResultUrl": "/projects/YOUR_PROJECT_ID/datatables/YOUR_DATATABLE_ID"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "tg_id",
+              "keyValue": "={{ $('Telegram Trigger').item.json.message.from.id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        -432,
+        -1120
+      ],
+      "id": "ac485f10-7a7f-4f14-b6a9-12844a11a5d1",
+      "name": "If admin exists",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "dataTableId": {
+          "__rl": true,
+          "value": "YOUR_DATATABLE_ID",
+          "mode": "list",
+          "cachedResultName": "Bot Users",
+          "cachedResultUrl": "/projects/YOUR_PROJECT_ID/datatables/YOUR_DATATABLE_ID"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "tg_id",
+              "keyValue": "={{ $('Telegram Trigger').item.json.message.from.id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "is_main": false,
+            "tg_id": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+            "name": "={{ [$('Telegram Trigger').item.json.message.from.first_name, $('Telegram Trigger').item.json.message.from.last_name].filter(Boolean).join(' ')}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "tg_id",
+              "displayName": "tg_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "is_main",
+              "displayName": "is_main",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        -512,
+        -1360
+      ],
+      "id": "81a76068-b21a-40a3-90d2-b828ab2ff4f2",
+      "name": "Upsert admin"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f3c4edae-3f42-42aa-92aa-fab572ca5bf9",
+              "leftValue": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        32,
+        -1024
+      ],
+      "id": "dbd22ec8-a51a-4004-a417-e56996ae0438",
+      "name": "Filter private chats only"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://YOUR_LP_CRM_DOMAIN/api/getOrdersIdByStatus.html",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "={{ $json.key }}"
+            },
+            {
+              "name": "status",
+              "value": "={{ $json.status }}"
+            },
+            {
+              "name": "date_start"
+            },
+            {
+              "name": "date_end"
+            }
+          ]
+        },
+        "options": {
+          "lowercaseHeaders": true,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1008,
+        -1104
+      ],
+      "id": "ebfe6c87-23a7-407e-91d0-51dd977ef7b4",
+      "name": "LP-CRM: Get orders by status",
+      "retryOnFail": true,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "58b7d6e5-7f7c-48e3-832c-e22057be1fca",
+              "name": "key",
+              "value": "api_key",
+              "type": "string"
+            },
+            {
+              "id": "5ece6438-0dde-45ab-bbb0-44d96aaaa10c",
+              "name": "status",
+              "value": "12",
+              "type": "string"
+            },
+            {
+              "id": "b086e7ce-008b-4b43-9a9e-dfd658d45884",
+              "name": "date_start",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "eae76d4f-18b2-4c95-bafb-00ce0050b263",
+              "name": "date_end",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        816,
+        -1104
+      ],
+      "id": "4c0b8d41-cad0-45a6-a230-df9798e3acd1",
+      "name": "Config: API key + status"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://YOUR_LP_CRM_DOMAIN/api/getOrdersByID.html",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "={{ $('Config: API key + status').item.json.key }}"
+            },
+            {
+              "name": "order_id",
+              "value": "={{ $json.body.data.join(',') }}"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {}
+          },
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1424,
+        -1104
+      ],
+      "id": "cde08c4c-8c69-4b69-a98f-76ec132381c3",
+      "name": "LP-CRM: Get orders by ID",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "maxTries": 5
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build combined ZPL for all orders\nconst inputData = $input.all()[0].json;\nconst orderIds = inputData.order_id || [];\nconst ttns = inputData.ttn || [];\nconst productNames = inputData.product_name || [];\n\nlet combinedZpl = '';\n\nfor (let i = 0; i < orderIds.length; i++) {\n    const orderId = orderIds[i] || '000';\n    const ttn = ttns[i] || 'TTN not found';\n    const productName = productNames[i] || 'No products';\n\n    combinedZpl += `^XA\n^CI28\n^CF0,40\n^FO50,50^FDOrder: #${orderId}^FS\n^CF0,80\n^FO50,150^FD${ttn}^FS\n^CF0,40\n^FO50,280^FB600,4,,L^FDProducts: ${productName}^FS\n^XZ\\n`;\n}\n\nreturn { \n  zpl_code: combinedZpl, \n  count: orderIds.length \n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2512,
+        -1072
+      ],
+      "id": "b296ca2e-dec2-4a6a-ba0a-63857e48f713",
+      "name": "Build ZPL labels"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://api.labelary.com/v1/printers/8dpmm/labels/4x4",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/pdf"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/x-www-form-urlencoded",
+        "body": "={{ $json.zpl_code }}",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchInterval": 1200
+            }
+          },
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "label"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        2736,
+        -1072
+      ],
+      "id": "600b5946-b018-4b56-ac98-cbc371971129",
+      "name": "Labelary: ZPL to PDF"
+    },
+    {
+      "parameters": {
+        "operation": "sendDocument",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "binaryData": true,
+        "binaryPropertyName": "label",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2944,
+        -1072
+      ],
+      "id": "0f1c4d2c-6571-47a4-97b7-7a134726f398",
+      "name": "Send PDF label to user",
+      "webhookId": "REDACTED",
+      "credentials": {
+        "telegramApi": {
+          "id": "REDACTED",
+          "name": "YOUR_BOT_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=Generating PDF labels...\nPlease wait.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        640,
+        -1104
+      ],
+      "id": "c7e4b125-da8e-490a-94ff-70929f0bd4e2",
+      "name": "Notify: generating PDF",
+      "webhookId": "REDACTED",
+      "credentials": {
+        "telegramApi": {
+          "id": "REDACTED",
+          "name": "YOUR_BOT_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -976,
+        -1216
+      ],
+      "id": "f361b839-75a1-4a3d-8e8c-e7db80702235",
+      "name": "Telegram Trigger",
+      "webhookId": "REDACTED",
+      "credentials": {
+        "telegramApi": {
+          "id": "REDACTED",
+          "name": "YOUR_BOT_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "order_id"
+            },
+            {
+              "fieldToAggregate": "ttn"
+            },
+            {
+              "fieldToAggregate": "product_name"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2256,
+        -1072
+      ],
+      "id": "4dcc753b-7b21-497a-8470-4c54ab693a78",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "batchSize": 2,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2000,
+        -1088
+      ],
+      "id": "b9bf61a1-1447-40b5-80ec-85077b73aaf2",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "Done! Labels sent.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2192,
+        -1232
+      ],
+      "id": "8a8b1499-ff23-4070-ba58-190c5a6a508e",
+      "name": "Notify: done",
+      "webhookId": "REDACTED",
+      "credentials": {
+        "telegramApi": {
+          "id": "REDACTED",
+          "name": "YOUR_BOT_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 3
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1216,
+        -1104
+      ],
+      "id": "2b579f6b-f1b7-458a-8dc2-51bacdf28186",
+      "name": "Wait1",
+      "webhookId": "REDACTED"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse LP-CRM order response\nconst data = $json.data;\n\nreturn Object.values(data).map(order => {\n  const allProducts = order.products \n    ? order.products.map(p => `${p.product_name} (${p.quantity} pcs)`).join(', ') \n    : 'No products';\n\n  return {\n    order_id: order.order_id,\n    ttn: order.ttn,\n    product_name: allProducts\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        -1104
+      ],
+      "id": "acd11c51-99fe-4931-9ab1-a0f85377cbf2",
+      "name": "Parse orders"
+    }
+  ],
+  "connections": {
+    "Admin secret code check": {
+      "main": [
+        [
+          {
+            "node": "Upsert admin",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If admin exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram3": {
+      "main": [
+        []
+      ]
+    },
+    "Commands": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notify: generating PDF",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a chat action",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a chat action": {
+      "main": [
+        []
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Allow admin only": {
+      "main": [
+        [
+          {
+            "node": "Commands",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Filter private chats only",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If admin exists": {
+      "main": [
+        [
+          {
+            "node": "Allow admin only",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upsert admin": {
+      "main": [
+        [
+          {
+            "node": "Access granted",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter private chats only": {
+      "main": [
+        [
+          {
+            "node": "Access denied",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LP-CRM: Get orders by status": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config: API key + status": {
+      "main": [
+        [
+          {
+            "node": "LP-CRM: Get orders by status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LP-CRM: Get orders by ID": {
+      "main": [
+        [
+          {
+            "node": "Parse orders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build ZPL labels": {
+      "main": [
+        [
+          {
+            "node": "Labelary: ZPL to PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Labelary: ZPL to PDF": {
+      "main": [
+        [
+          {
+            "node": "Send PDF label to user",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send PDF label to user": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify: generating PDF": {
+      "main": [
+        [
+          {
+            "node": "Config: API key + status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Admin secret code check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Build ZPL labels",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Notify: done",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "LP-CRM: Get orders by ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse orders": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "REDACTED"
+  }
+}
